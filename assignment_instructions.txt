@@ -1,4 +1,8 @@
 For this first project, you'll be:
+- delete current VE
+- set up a new one and put in .gitignore
+- activate VE, run test.py file OR main.py file and look for IMPORT errors
+- then you know which libraries you need to include in your VE
 
 Downloading files, making changes to them, reading additional instructions inside them, making additions, including at least 1 brand new file. You'll also be making sure that all these files are inside a git repository, that you commit each major change as you make it, and that you ultimately push all of the files with their changes to a repository on GitHub.
 
