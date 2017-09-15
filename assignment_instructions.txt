@@ -1,0 +1,37 @@
+For this first project, you'll be:
+
+Downloading files, making changes to them, reading additional instructions inside them, making additions, including at least 1 brand new file. You'll also be making sure that all these files are inside a git repository, that you commit each major change as you make it, and that you ultimately push all of the files with their changes to a repository on GitHub.
+
+To complete it, you should:
+PREP:
+1. Download all the files from Files > Projects > Project 1 - Structure - Materials. Save them in a new directory on your computer that will not contain other files (so, don't save them in e.g. a directory you have just for SI 507)
+
+2. You'll need to have created a GitHub account and downloaded Git properly (but you should have done this for class already by the time you're working on this)
+Create a git repository on your computer for that directory with git init, and commit the files you've downloaded.
+
+3. Create a GitHub repository for these files. You can call it whatever you want. Link it to the git repository and push the files to GitHub.
+Create a virtual environment for this project. You can call your virtual environment whatever you want.
+
+4. Install all libraries required to run these files (the ones that aren't in the standard library) in your virtual environment.
+Use pip freeze and the correct Unix pipe command to create a requirements.txt file in this directory. Add and commit it to your git repository.
+
+ASSIGNMENT:
+1. One of the files you've downloaded is a text file: code_description_507F17project1.txt. In that file, there is English description of what a bunch of code ought to do. That code being described is saved in the file 507F17_project1_cards.py. However, there are at least 3 bugs in the code so that it does not do what the description says it should do.
+
+2. You should write tests inside the file called SI507F17_project1_tests.py that will find those 3 bugs. You should not spend time looking at the code before you do that.
+
+3. You should write at least 10 different test methods that test unusual cases of the code, based on the description. The individual test methods you write may be in as many different Test Suite subclasses as you like, but it's a good idea to try to organize them in a way that will make sense when you run them.
+
+4. Besides the description, in paragraph form, there is no documentation of this code. You should add a README.md file to the repository in a clear, outline format that will make it easy for someone else to understand what functionality the code has, clone the code, and use it. Consider the README you'd want to get if you were interested in this code but did not have a lot of time.
+
+5. Finally, you should make sure ALL of the .py files included in this repository are PEP8-compliant. You should commit all of the changes you've made, and any new files you've created, in the process of getting this done, and push them all to the GitHub repository.
+
+6. Overall, the repository must have at least 4 commits pushed to GitHub, but there may be more! (When you go to that GitHub repo link you're submitting, you should see a nice README right away, because you've committed a README.md file.)
+
+
+You should submit:
+
+All of the files, individually (NOT in a .zip or .rar folder) to this assignment on Canvas.
+In the comments that can go with a file submission, you should submit the complete link to your GitHub repository so we can click on it and see the repository.
+
+Make sure you ask any questions about this process that you have. This is similar to the way you will be submitting projects from now on in this course!
