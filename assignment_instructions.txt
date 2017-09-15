@@ -12,7 +12,15 @@ Create a git repository on your computer for that directory with git init, and c
 3. Create a GitHub repository for these files. You can call it whatever you want. Link it to the git repository and push the files to GitHub.
 Create a virtual environment for this project. You can call your virtual environment whatever you want.
 
-4. Install all libraries required to run these files (the ones that aren't in the standard library) in your virtual environment.
+4. Install all libraries required to run these files (the ones that aren't in the standard library) in your virtual environment. Libraries found using import statements at top of code:
+
+import random
+import helper_functions
+import requests
+import json
+import webbrowser
+import unittest
+
 Use pip freeze and the correct Unix pipe command to create a requirements.txt file in this directory. Add and commit it to your git repository.
 
 ASSIGNMENT:

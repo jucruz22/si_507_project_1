@@ -1,0 +1,6 @@
+ASSIGNMENT QUESTIONS:
+- How to put files in .gitignore? Trying to do this with .DS_Store and forgot the command
+
+- Do you git commit virtual environments? Does this make sense to do if collaborating with other users?
+
+- After adding necessary libraries to my VE, do I keep it activated as I: make changes to code > git commit, and > push to github?
