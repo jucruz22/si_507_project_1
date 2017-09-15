@@ -9,3 +9,25 @@ from SI507F17_project1_cards import *
 ## You should invoke the tests with verbosity=2 (make sure you invoke them!)
 
 ###########
+class TestClassCard(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+class TestClassDeck(unittest.TestCase):
+    def setUp(self):
+        # put any common instances in this function
+        # i.e. creating a card, opening a file, creating an instances
+        pass # for now
+
+    def test_constructor(self):
+        pass
+
+    def test_shuffle(self):
+        pass
+
+    def tearDown(self):
+        # used to close stuff, close a file, a database, etc.
+        # use specific methods to delete a file, depending on what type it is
+        pass #for now
