@@ -70,21 +70,11 @@ class TestClassDeck(unittest.TestCase):
         string_list = self.d.__str__().split('\n')
         self.assertEqual(len(string_list),52,'string method should return multi-lines, one for each card')
 
-    def test_pop_card_len(self):
-        # testing that cards list is one less when use the pop_card method
-        self.d.pop_card() # default i = -1
-        self.assertEqual(len(self.cards),51,'length of cards list decrease by 1 when pop card')
-
-    def test_pop_card_last(self):
-        # testing that LAST card is removed = i.e. King of Spades
-        self.d.pop_card()
-        self.assertTrue("King of Spades" not in self.d.__str__(),'cards should be removed from top to bottom')
-
-    def test_pop_card_empty(self):
-        # testing that cards list is empty if you use pop_card method 52 times
-        for i in range(53):
-            self.d.pop_card()
-            self.assertRaises(IndexError,self.d.pop_card)
+    def test_pop_card(self):
+        d = Deck()
+        for i in range(52):
+            d.pop_card()
+        self.assertTrue(len(d.cards)==0,'test')
 
     def test_shuffle(self):
         # confirm that order of cards changes after shuffle method invoked
@@ -94,22 +84,31 @@ class TestClassDeck(unittest.TestCase):
         self.assertFalse(d==dd,"shuffle ensures the order of these two decks are different")
 
     def test_deal_hand(self):
-        d = Deck()
-        d2 = Deck()
+        # test that correct hand size is returned
+        d = Deck() #deck instance with d.cards = list of card instances
+        #shuffle the deck well
         d.shuffle()
-        d.sort_cards()
-        self.assertTrue(d == d2,'testing that decks are the same via sort')
+        # print (d)
+        hand = d.deal_hand(4)
+        hand_cards = [str(c) for c in hand] # creates a list of strings for each card so you can see what's delt
+        # print (hand_cards)
+        self.assertTrue(len(hand_cards)==4)
+
+    def test_deal_hand_full(self):
+        d = Deck()
+        d.shuffle()
+        hand = d.deal_hand(52) #returns list of card objects of that hand size
+        hand_cards = [str(c) for c in hand] #converts that list of card objects into actual strings that represent the type of card
+        self.assertTrue(len(d.cards) == 0, 'tesing all cards are removed from deck')
 
     def test_sort_cards(self):
-        original_deck = self.cards
-        self.d.shuffle()
-        self.d.sort_cards()
-        sorted_deck = self.cards
-        self.assertNotEqual(original_deck,sorted_deck,'sorting reverts cards list to original state before shuffling')
+        d = Deck()
+        dd = Deck()
+        dd.shuffle()
+        dd.sort_cards()
+        self.assertTrue(d.__str__()==dd.__str__(),'sorting reverts cards list to original state before shuffling')
         # when cards list is freshly made, it's already sorted right?
         # so we'd have to use shuffle, then sort again, to determine that sort returns self.cards list order to its original state
-        '''* Deck has a method sort_cards which should organize the cards remaining in the deck into an order such that they are in ascending order by suit: Diamonds, then Clubs, then Hearts, then Spades.'''
-        pass
 
     def tearDown(self):
         # used to close stuff, close a file, a database, etc.
