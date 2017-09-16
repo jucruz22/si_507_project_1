@@ -1,6 +1,7 @@
 ## Do not change import statements.
 import unittest
 from SI507F17_project1_cards import *
+from helper_functions import *
 
 ## Write your unit tests to test the cards code here.
 ## You should test to ensure that everything explained in the code description file works as that file says.
@@ -11,6 +12,8 @@ from SI507F17_project1_cards import *
 ###########
 
 class TestClassCard(unittest.TestCase):
+    # bug = face card translation?
+
     def setUp(self): # similar to the __init__ step in creating a class, so use self.instance
         self.fc = Card(2,12) # face card -- queen of Hearts
         self.nc = Card(0,5) # number card -- 5 of Diamonds
@@ -43,7 +46,13 @@ class TestClassCard(unittest.TestCase):
 class TestClassDeck(unittest.TestCase):
     def setUp(self):
         self.d = Deck() # a deck instance
-        self.cards = self.d.cards # d.cards = list of card objects
+        self.cards = self.d.cards # d.cards = list of card objects, ordered by suit and rank
+        self.first_card = self.cards[0]
+        self.last_card = self.cards[51]
+        # print (self.d.__str__().split('\n'))
+        popped_deck = self.d.pop_card()
+        # print (self.d.__str__().split('\n'))
+        '''last card (top card) in ordered deck is King of Spades'''
 
     def test_constructor(self):
         # confirming that d is an instance of class Deck
@@ -57,79 +66,91 @@ class TestClassDeck(unittest.TestCase):
         # cards list is 52 items long
         self.assertEqual(len(self.cards),52,'length of cards list should = 52')
 
-    def test_str(self):
-        pass # how to write this concisely?
-        '''* The Deck string method should return a multi-line string with one line for each printed representation of a card in the deck. So a complete deck should have a 52-line string of strings like "Ace of Diamonds", "Two of Diamonds", etc.'''
+    def test_deck_str(self):
+        string_list = self.d.__str__().split('\n')
+        self.assertEqual(len(string_list),52,'string method should return multi-lines, one for each card')
 
     def test_pop_card_len(self):
         # testing that cards list is one less when use the pop_card method
-        self.d.pop_card()
+        self.d.pop_card() # default i = -1
         self.assertEqual(len(self.cards),51,'length of cards list decrease by 1 when pop card')
 
     def test_pop_card_last(self):
         # testing that LAST card is removed = i.e. King of Spades
-        self.d.pop_card(1)
+        self.d.pop_card()
         self.assertTrue("King of Spades" not in self.d.__str__(),'cards should be removed from top to bottom')
 
     def test_pop_card_empty(self):
         # testing that cards list is empty if you use pop_card method 52 times
-        self.d.pop_card(51)
-        self.assertEqual(len(self.d.cards),0,'deck is empty once you pop 52 times')
+        for i in range(53):
+            self.d.pop_card()
+            self.assertRaises(IndexError,self.d.pop_card)
 
     def test_shuffle(self):
-        	# use string method here
-    		# create a list of 52 name strings for each card
-    				cards_strings = [str(c) for c in self.cards]
-    				cards_strings_shuffle =
-    			# check lists are/aren't equal before shuffling or after shuffling
-    			# also check that the length of these lists is the same (i.e. started/ended with 52 cards)
-    		# a = [1,2,3]
-    		# b = [3,2,1]
-    		# a == b, if True, then didn't shuffle -- if False, then did shuffle
-    		# len(a) == len(b)
-            
-    '''* Deck has a method shuffle which accepts no external input and shuffles the self.cards list in the Deck at that time so that it has a random order.'''
+        # confirm that order of cards changes after shuffle method invoked
+        d = Deck()
+        dd = Deck()
+        d.shuffle()
+        self.assertFalse(d==dd,"shuffle ensures the order of these two decks are different")
+
+    def test_deal_hand(self):
+        d = Deck()
+        d2 = Deck()
+        d.shuffle()
+        d.sort_cards()
+        self.assertTrue(d == d2,'testing that decks are the same via sort')
+
+    def test_sort_cards(self):
+        original_deck = self.cards
+        self.d.shuffle()
+        self.d.sort_cards()
+        sorted_deck = self.cards
+        self.assertNotEqual(original_deck,sorted_deck,'sorting reverts cards list to original state before shuffling')
+        # when cards list is freshly made, it's already sorted right?
+        # so we'd have to use shuffle, then sort again, to determine that sort returns self.cards list order to its original state
+        '''* Deck has a method sort_cards which should organize the cards remaining in the deck into an order such that they are in ascending order by suit: Diamonds, then Clubs, then Hearts, then Spades.'''
+        pass
 
     def tearDown(self):
         # used to close stuff, close a file, a database, etc.
         # use specific methods to delete a file, depending on what type it is
         pass #for now
 
-'''
-* A class Deck
+class TestWar(unittest.TestCase):
+    def test_war_type(self):
+        war = play_war_game(testing=True)
+        self.assertEqual(type(war), tuple)
+
+    def test_war_first_position_of_tuple(self):
+        war = play_war_game(testing=True)
+        self.assertTrue(war[0] in ['Player1', 'Player2', 'Tie'])
+
+    def test_war_two_integers(self):
+        war = play_war_game(testing=True)
+        self.assertEqual(type(war[1]), int)
+        self.assertEqual(type(war[2]), int)
+
+    def test_war_winners(self):
+        war = play_war_game(testing=True)
+        if war[0] == 'Player1':
+            self.assertTrue(war[1]>war[2])
+        elif war[0] == 'Player2':
+            self.assertTrue(war[2]>war[1])
+        else:
+            self.assertTrue(war[1]==war[2])
 
 
-	* Deck has a method replace_card which accepts a Card instance as input. If the card instance input into the method is NOT already in the deck, it is added back to the deck. If it IS already in the deck, nothing changes about the Deck (a deck should not have any duplicate cards as a result of calling this method).
+class TestShowSong(unittest.TestCase):
+    # test that show_song returns a single instance of class Song
+    def test_song_instance(self):
+        s = show_song() # default parameter = "winner"
+        self.assertIsInstance(s,Song,'testing instance')
 
-	* Deck has a method sort_cards which should organize the cards remaining in the deck into an order such that they are in ascending order by suit: Diamonds, then Clubs, then Hearts, then Spades.
+    # test that when calling string method on song instance, "SearchTerm" is in the name
+    def test_song_search_term(self):
+        s = show_song("Beauty")
+        self.assertTrue("Beauty" in s.__str__())
 
-	* Deck has a method deal_hand which takes a required input hand_size, an integer representing the number of cars in the hand. It should return a list of Card objects that make up the hand dealt. A hand should be able to be dealt up to the full size of the current deck (e.g. if 3 cards have been removed from the deck and not replaced, it should be impossible to deal a 52-card hand, but if no cards have been removed, it should be possible)
-
-
-* A function play_war_game
-
-	* The function has one keyword parameter *testing*, whose default value is False. When the function is called with testing=True, the function does not make any print statements, making it easier to see tests.
-		* (NOTE: You do not have to test this -- it is difficult to test print statements, because print is for people! However, when testing this function, you should ALWAYS invoke it with testing=True and NEVER with the default value, or the tests will be very difficult ot read.)
-
-	* The play_war_game function should initialize two Deck instances, representing Player 1 and Player 2, inside its function scope and simulate a variation on the card game of War (http://www.bicyclecards.com/how-to-play/war/). This happens with no external input. There are 3 possible outcomes: the Player1 score is larger than the Player2 score and Player1 wins, the Player2 score is larger than the Player1 score and Player2 wins, or the two scores are the same and there is a tie.
-
-	* The play_war_game function should always return a tuple of a string and two integers, where the string is either "Player1", "Player2", or "Tie", and the integers represent the Player1 score and the Player2 score, respectively.
-
-* A function show_song
-
-	* The show_song function takes a string as input to use as a search term for songs on iTunes. Its default value is "Winner", but you should be able to search for any search term with this function.
-
-	* The show_song function invokes a function from the helper_functions file (which you do NOT have to test!), that gets data from the iTunes Search API based on this search term. It creates a list of Song objects, using the Song class definition from the helper_functions file.
-
-	* The show_song function should return a single instance of class Song (whose definition you can see in helper_functions.py, but which you do NOT have to test).
-		- s = show_song()
-		- self.assertIsInstance(s,Song)
-		- self.assertTrue(isinstance(s,Song)
-
-		- s2 = show_song('Bowie')
-		- print(s2)
-		- self.assertTrue('Bowie' in str(str2))
-'''
 
 if __name__ == '__main__':
     #makes sure that only runs test cases when called from command line, and not when running a separate file that imports THIS test case file
