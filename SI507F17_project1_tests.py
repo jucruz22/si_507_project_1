@@ -67,48 +67,59 @@ class TestClassDeck(unittest.TestCase):
         self.assertEqual(len(self.cards),52,'length of cards list should = 52')
 
     def test_deck_str(self):
-        string_list = self.d.__str__().split('\n')
+        # string returned is 52 lines
+        string_list = self.d.__str__().split('\n') # split deck string name by its newlines
         self.assertEqual(len(string_list),52,'string method should return multi-lines, one for each card')
 
     def test_pop_card(self):
-        d = Deck()
-        for i in range(52):
-            d.pop_card()
-        self.assertTrue(len(d.cards)==0,'test')
+        # test that deck is empty when pop all cards
+        d = Deck() # create a deck instance
+        for i in range(52): # i reflects index values of deck, so the range should only go to 52
+            d.pop_card() # pop all 52 cards off
+        self.assertTrue(len(d.cards)==0,'after 52 pops all cards should be removed from d.cards list')
 
     def test_shuffle(self):
-        # confirm that order of cards changes after shuffle method invoked
+        # confirm that order of cards list changes after shuffle method invoked
         d = Deck()
         dd = Deck()
         d.shuffle()
-        self.assertFalse(d==dd,"shuffle ensures the order of these two decks are different")
+        self.assertFalse(d.cards==dd.cards,"shuffle ensures the order of these two decks are different")
+
+    def test_replace_cards(self):
+        # confirm that missing card is replaced
+        d = Deck()
+        cards = d.cards # make a list of card instances in that deck
+        to_be_replaced = cards[0] # index a single card that we want replaced later
+        cards.pop(0) # now pop that card out of the list
+        d.replace_card(to_be_replaced) # invoke the replace_card method
+        self.assertTrue(to_be_replaced in d.cards,'correct card has been re-inserted into deck')
 
     def test_deal_hand(self):
         # test that correct hand size is returned
-        d = Deck() #deck instance with d.cards = list of card instances
-        #shuffle the deck well
-        d.shuffle()
+        d = Deck() # deck instance with d.cards = list of card instances
+        d.shuffle() #shuffle the cards well
         # print (d)
         hand = d.deal_hand(4)
         hand_cards = [str(c) for c in hand] # creates a list of strings for each card so you can see what's delt
         # print (hand_cards)
-        self.assertTrue(len(hand_cards)==4)
+        self.assertTrue(len(hand==4)
 
     def test_deal_hand_full(self):
+        # testing that full hand means all cards are removed from deck and transfered into hand
         d = Deck()
+        cards = d.cards
         d.shuffle()
         hand = d.deal_hand(52) #returns list of card objects of that hand size
         hand_cards = [str(c) for c in hand] #converts that list of card objects into actual strings that represent the type of card
-        self.assertTrue(len(d.cards) == 0, 'tesing all cards are removed from deck')
+        self.assertTrue(len(hand)==52, 'hand contains all cards')
+        self.assertTrue(len(cards) == 0, 'tesing all cards are removed from deck')
 
     def test_sort_cards(self):
-        d = Deck()
-        dd = Deck()
-        dd.shuffle()
-        dd.sort_cards()
-        self.assertTrue(d.__str__()==dd.__str__(),'sorting reverts cards list to original state before shuffling')
-        # when cards list is freshly made, it's already sorted right?
-        # so we'd have to use shuffle, then sort again, to determine that sort returns self.cards list order to its original state
+        d1= Deck()
+        d2 = Deck()
+        d2.shuffle()
+        d2.sort_cards()
+        self.assertTrue(d1.cards==d2.cards,'sorting reverts cards list to original state before shuffling')
 
     def tearDown(self):
         # used to close stuff, close a file, a database, etc.

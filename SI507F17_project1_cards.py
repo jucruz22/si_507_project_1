@@ -7,21 +7,21 @@ import helper_functions
 
 ######### DO NOT CHANGE PROVIDED CODE #########
 
-class Card(object):
-    suit_names =  ["Diamonds","Clubs","Hearts","Spades"]
-    rank_levels = [1,2,3,4,5,6,7,8,9,10,11,12,13]
-    faces = {1:"Ace",11:"Jack",12:"Queen",13:"King"}
+class Card(object): # creating card class to make individual card instances
+    suit_names =  ["Diamonds","Clubs","Hearts","Spades"] # list of suits using strings
+    rank_levels = [1,2,3,4,5,6,7,8,9,10,11,12,13] # rank 1-13
+    faces = {1:"Ace",11:"Jack",12:"Queen",13:"King"} # face cards
 
-    def __init__(self, suit=0,rank=2):
-        self.suit = self.suit_names[suit]
-        if rank in self.faces: # self.rank handles printed representation
-            self.rank = self.faces[rank]
+    def __init__(self, suit=0,rank=2): # card instance takes suit integer and rank integer
+        self.suit = self.suit_names[suit] #index input depending on suit in list
+        if rank in self.faces: # if rank integer is in the faces dictionary...
+            self.rank = self.faces[rank] # then rank gets converted to the associated dictionary key for that face
         else:
             self.rank = rank
-        self.rank_num = rank # To handle winning comparison 
+        self.rank_num = rank # To handle winning comparison
 
     def __str__(self):
-        return "{} of {}".format(self.rank_num,self.suit) 
+        return "{} of {}".format(self.rank_num,self.suit)
 
 class Deck(object):
     def __init__(self): # Don't need any input to create a deck of cards
@@ -39,7 +39,7 @@ class Deck(object):
         # shows up in whatever order the cards are in
         return "\n".join(total) # returns a multi-line string listing each card
 
-    def pop_card(self, i=-1): 
+    def pop_card(self, i=-1): # default value implies that last card is popped, any other integer implies the index value of that card
         return self.cards.pop(i) # this card is no longer in the deck -- taken off
 
     def shuffle(self):
@@ -48,22 +48,22 @@ class Deck(object):
     def replace_card(self, card):
         card_strs = [] # forming an empty list
         for c in self.cards: # each card in self.cards (the initial list)
-            card_strs.append(c.__str__()) # appends the string that represents that card to the empty list 
+            card_strs.append(c.__str__()) # appends the string that represents that card to the empty list
         if card.__str__() not in card_strs: # if the string representing this card is not in the list already
             self.cards.append(card) # append it to the list
 
-    def sort_cards(self): 
-        self.cards = []
-        for suit in range(4):
-            for rank in range(1,14):
-                card = Card(suit,rank)
-                self.cards.append(card)
+    def sort_cards(self):
+        self.cards = [] #starts afresh by re-creating empty list of card instances
+        for suit in range(4): # diamonds, clubs, hearts, spades
+            for rank in range(1,14): # from 1-13
+                card = Card(suit,rank) # create a card instance of that suit and rank, in that loop order
+                self.cards.append(card) # add it to the instance variable self.cards list
 
     def deal_hand(self, hand_size):
-        hand_cards = []
-        for i in range(hand_size):
-            hand_cards.append(self.pop_card(i)) 
-        return hand_cards
+        hand_cards = [] # creates empty list of hand cards
+        for i in range(hand_size): # i represents index value of hand_cards list, range goes from 0 to hand_size - 1)
+            hand_cards.append(self.pop_card(i)) #adds pops first card from the deck into your hand
+        return hand_cards # returns list of card instances
 
 
 # A silly function, but it does kind of work to play a game.
@@ -133,4 +133,3 @@ if __name__ == "__main__":
 
 
 ########### DO NOT CHANGE CODE ABOVE THIS LINE ###############
-
