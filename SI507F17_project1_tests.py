@@ -120,7 +120,7 @@ class TestClassDeck(unittest.TestCase):
         # creates a list of strings for each card so you can see what's delt
         hand_cards = [str(c) for c in hand]
         # print (hand_cards)
-        self.assertTrue(len(hand == 4)
+        self.assertTrue(len(hand == 4))
 
     def test_deal_hand_full(self):
         # testing that full hand means all cards are removed from deck and transfered into hand
@@ -135,6 +135,7 @@ class TestClassDeck(unittest.TestCase):
                         'tesing all cards are removed from deck')
 
     def test_sort_cards(self):
+        # testing that default cards list order is resumed after sort
         d1=Deck()
         d2=Deck()
         d2.shuffle()
@@ -149,26 +150,29 @@ class TestClassDeck(unittest.TestCase):
 
 class TestWar(unittest.TestCase):
     def test_war_type(self):
-        war=play_war_game(testing=True)
-        self.assertEqual(type(war), tuple)
+        # testing that a tuple is returned from the war function
+        w=play_war_game(testing=True)  # initializing war game function
+        self.assertEqual(type(w), tuple,'function should return a tuple')
 
-    def test_war_first_position_of_tuple(self):
-        war=play_war_game(testing=True)
-        self.assertTrue(war[0] in ['Player1', 'Player2', 'Tie'])
+    def test_war_first_tuple(self):
+        # tesing that
+        w=play_war_game(testing=True)
+        options=['Player1', 'Player2', 'Tie']
+        self.assertTrue(w[0] in options,'first item in tuple should name the winner or a tie')
 
     def test_war_two_integers(self):
-        war=play_war_game(testing=True)
-        self.assertEqual(type(war[1]), int)
-        self.assertEqual(type(war[2]), int)
+        w=play_war_game(testing=True)
+        self.assertEqual(type(w[1]), int,'second item in tuple should be a points integer')
+        self.assertEqual(type(w[2]), int,'third item in tuple should be a points integer')
 
     def test_war_winners(self):
-        war=play_war_game(testing=True)
-        if war[0] == 'Player1':
-            self.assertTrue(war[1] > war[2])
-        elif war[0] == 'Player2':
-            self.assertTrue(war[2] > war[1])
+        w=play_war_game(testing=True)
+        if w[0] == 'Player1':  # if player one wins...
+            self.assertTrue(w[1] > w[2], 'player one should have more points than player two')  # then points of player 1 > points of player two
+        elif w[0] == 'Player2':
+            self.assertTrue(w[2] > w[1],'player two should have more points than player one')  # and vice versa
         else:
-            self.assertTrue(war[1] == war[2])
+            self.assertTrue(w[1] == w[2],'player one and two should have same number of points')
 
 
 class TestShowSong(unittest.TestCase):
