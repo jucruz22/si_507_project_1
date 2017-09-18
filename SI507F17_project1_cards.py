@@ -7,63 +7,75 @@ import helper_functions
 
 ######### DO NOT CHANGE PROVIDED CODE #########
 
-class Card(object): # creating card class to make individual card instances
-    suit_names =  ["Diamonds","Clubs","Hearts","Spades"] # list of suits using strings
-    rank_levels = [1,2,3,4,5,6,7,8,9,10,11,12,13] # rank 1-13
-    faces = {1:"Ace",11:"Jack",12:"Queen",13:"King"} # face cards
 
-    def __init__(self, suit=0,rank=2): # card instance takes suit integer and rank integer
-        self.suit = self.suit_names[suit] #index input depending on suit in list
-        if rank in self.faces: # if rank integer is in the faces dictionary...
-            self.rank = self.faces[rank] # then rank gets converted to the associated dictionary key for that face
+class Card(object):  # creating card class to make individual card instances
+    suit_names = ["Diamonds", "Clubs", "Hearts",
+                  "Spades"]  # list of suits using strings
+    rank_levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]  # rank 1-13
+    faces = {1: "Ace", 11: "Jack", 12: "Queen", 13: "King"}  # face cards
+
+    def __init__(self, suit=0, rank=2):  # card instance takes suit integer and rank integer
+        # index input depending on suit in list
+        self.suit = self.suit_names[suit]
+        if rank in self.faces:  # if rank integer is in the faces dictionary...
+            # then rank gets converted to the associated dictionary key for that face
+            self.rank = self.faces[rank]
         else:
             self.rank = rank
-        self.rank_num = rank # To handle winning comparison
+        self.rank_num = rank  # To handle winning comparison
 
     def __str__(self):
-        return "{} of {}".format(self.rank_num,self.suit)
+        return "{} of {}".format(self.rank_num, self.suit)
+
 
 class Deck(object):
-    def __init__(self): # Don't need any input to create a deck of cards
+    def __init__(self):  # Don't need any input to create a deck of cards
         # This working depends on Card class existing above
         self.cards = []
         for suit in range(4):
-            for rank in range(1,14):
-                card = Card(suit,rank)
-                self.cards.append(card) # appends in a sorted order
+            for rank in range(1, 14):
+                card = Card(suit, rank)
+                self.cards.append(card)  # appends in a sorted order
 
     def __str__(self):
         total = []
         for card in self.cards:
             total.append(card.__str__())
         # shows up in whatever order the cards are in
-        return "\n".join(total) # returns a multi-line string listing each card
+        # returns a multi-line string listing each card
+        return "\n".join(total)
 
-    def pop_card(self, i=-1): # default value implies that last card is popped, any other integer implies the index value of that card
-        return self.cards.pop(i) # this card is no longer in the deck -- taken off
+    def pop_card(self, i=-1):  # default value implies that last card is popped, any other integer implies the index value of that card
+        # this card is no longer in the deck -- taken off
+        return self.cards.pop(i)
 
     def shuffle(self):
         random.shuffle(self.cards)
 
     def replace_card(self, card):
-        card_strs = [] # forming an empty list
-        for c in self.cards: # each card in self.cards (the initial list)
-            card_strs.append(c.__str__()) # appends the string that represents that card to the empty list
-        if card.__str__() not in card_strs: # if the string representing this card is not in the list already
-            self.cards.append(card) # append it to the list
+        card_strs = []  # forming an empty list
+        for c in self.cards:  # each card in self.cards (the initial list)
+            # appends the string that represents that card to the empty list
+            card_strs.append(c.__str__())
+        if card.__str__() not in card_strs:  # if the string representing this card is not in the list already
+            self.cards.append(card)  # append it to the list
 
     def sort_cards(self):
-        self.cards = [] #starts afresh by re-creating empty list of card instances
-        for suit in range(4): # diamonds, clubs, hearts, spades
-            for rank in range(1,14): # from 1-13
-                card = Card(suit,rank) # create a card instance of that suit and rank, in that loop order
-                self.cards.append(card) # add it to the instance variable self.cards list
+        self.cards = []  # starts afresh by re-creating empty list of card instances
+        for suit in range(4):  # diamonds, clubs, hearts, spades
+            for rank in range(1, 14):  # from 1-13
+                # create a card instance of that suit and rank, in that loop order
+                card = Card(suit, rank)
+                # add it to the instance variable self.cards list
+                self.cards.append(card)
 
     def deal_hand(self, hand_size):
-        hand_cards = [] # creates empty list of hand cards
-        for i in range(hand_size): # i represents index value of hand_cards list, range goes from 0 to hand_size - 1)
-            hand_cards.append(self.pop_card(i)) #adds pops first card from the deck into your hand
-        return hand_cards # returns list of card instances
+        hand_cards = []  # creates empty list of hand cards
+        # i represents index value of hand_cards list, range goes from 0 to hand_size - 1)
+        for i in range(hand_size):
+            # adds pops first card from the deck into your hand
+            hand_cards.append(self.pop_card(i))
+        return hand_cards  # returns list of card instances
 
 
 # A silly function, but it does kind of work to play a game.
@@ -84,7 +96,7 @@ def play_war_game(testing=False):
         p1_card = player1.pop_card()
         p2_card = player2.pop_card()
         if not testing:
-            print("Player 1 plays", p1_card,"& Player 2 plays", p2_card)
+            print("Player 1 plays", p1_card, "& Player 2 plays", p2_card)
 
         if p1_card.rank_num > p2_card.rank_num:
             if not testing:
@@ -107,8 +119,9 @@ def play_war_game(testing=False):
 
 
 # Very silly. Grabbing the functionality from the helper functions file here.
-def show_song(inp="Winner"): # default winner ... but also could be something else if it works correctly, which it does not (put in description and remove this clarity)
-    songs_resp = helper_functions.get_and_cache_songs(random.choice(["win","winner","hurrah","hooray"]))
+def show_song(inp="Winner"):  # default winner ... but also could be something else if it works correctly, which it does not (put in description and remove this clarity)
+    songs_resp = helper_functions.get_and_cache_songs(
+        random.choice(["win", "winner", "hurrah", "hooray"]))
     song_objs = [helper_functions.Song(s) for s in songs_resp["results"]]
     single_song = helper_functions.random_song(song_objs)
     return single_song
@@ -116,7 +129,8 @@ def show_song(inp="Winner"): # default winner ... but also could be something el
 
 if __name__ == "__main__":
     result = play_war_game()
-    print("""\n\n******\nTOTAL SCORES:\nPlayer 1: {}\nPlayer 2: {}\n\n""".format(result[1],result[2]))
+    print(
+        """\n\n******\nTOTAL SCORES:\nPlayer 1: {}\nPlayer 2: {}\n\n""".format(result[1], result[2]))
     if result[0] != "Tie":
         print(result[0], "wins")
         s = show_song()
@@ -127,9 +141,9 @@ if __name__ == "__main__":
         s = show_song("tie")
         s.open_url_for_track()
 
-## NOTE: if you see a message like so, running this on a Mac computer:
-## 0:94: execution error: "https://itunes.apple.com/us/album/bears-adventure/id495954957?i=495955054&uo=4" doesn’t understand the “open location” message. (-1708)
-## That's an Apple-related error but will not cause you a problem. Don't worry about it.
+# NOTE: if you see a message like so, running this on a Mac computer:
+# 0:94: execution error: "https://itunes.apple.com/us/album/bears-adventure/id495954957?i=495955054&uo=4" doesn’t understand the “open location” message. (-1708)
+# That's an Apple-related error but will not cause you a problem. Don't worry about it.
 
 
 ########### DO NOT CHANGE CODE ABOVE THIS LINE ###############
